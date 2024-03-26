@@ -101,19 +101,17 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: '#e8e5de',
   },
   camera: {
-    height: '70%',
+    height: '93%',
     },
-  button: {
-    backgroundColor: 'gray',
-  },
   buttonContainer: {
     position: 'absolute',
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',
+    backgroundColor: 'white',
     bottom: 0,
     padding: 20,
   },
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
     height: 80,
     width: 80,
     borderRadius: 40,
-    backgroundColor: 'white',
+    backgroundColor: 'black',
     alignSelf: 'center',
   },
   image: {

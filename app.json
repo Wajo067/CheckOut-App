@@ -1,4 +1,5 @@
 {
   "name": "CheckOut1",
-  "displayName": "CheckOut1"
+  "displayName": "CheckOut1",
+  "icon": "./android/assets/ICONbg.png"
 }

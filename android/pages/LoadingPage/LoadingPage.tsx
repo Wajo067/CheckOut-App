@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, Text, View, Button, Image} from 'react-native';
+import {StyleSheet, Text, View, Button, Image, Pressable} from 'react-native';
 
 const LoadingScreen = ({navigation}: {navigation:any}) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.red}>just red</Text>
+      <Text style={styles.red}>This will be then App info screen</Text>
       <Text style={styles.bigBlue}>just bigBlue</Text>
       <Text style={[styles.bigBlue, styles.red]}>bigBlue, then red</Text>
       <Text style={[styles.red, styles.bigBlue]}>red, then bigBlue</Text>
@@ -15,27 +15,27 @@ const LoadingScreen = ({navigation}: {navigation:any}) => {
       <Image source={{uri: 'https://miro.medium.com/v2/resize:fit:640/format:webp/1*OohqW5DGh9CQS4hLY5FXzA.png'}}
              style={{width: 100, height: 100}} />
 
-      <View style={styles.button}>
-        <Button
-          onPress={() => navigation.navigate('home_page')}
-          title="Go To HomePage"
-          />
+      <View style={styles.buttonContainer}>
+        <Pressable style={styles.button}
+          onPress={() => navigation.navigate('home_page')}>
+          <Text style={styles.buttonText}>Go To HomePage</Text>
+        </Pressable>
       </View>
 
 
-      <View style={styles.button}>
-              <Button
-                onPress={() => navigation.navigate('camera_page')}
-                title="Go To Camera Page"
-                />
-              </View>
+      <View style={styles.buttonContainer}>
+          <Pressable style={styles.button}
+            onPress={() => navigation.navigate('camera_page')}>
+            <Text style={styles.buttonText}>Go to Camera</Text>
+          </Pressable>
+      </View>
 
-      <View style={styles.button}>
-                    <Button
-                      onPress={() => navigation.navigate('scan_page')}
-                      title="Scan"
-                      />
-                    </View>
+      <View style={styles.buttonContainer}>
+        <Pressable style={styles.button}
+          onPress={() => navigation.navigate('scan_page')}>
+          <Text style={styles.buttonText}>Scan</Text>
+        </Pressable>
+      </View>
     </View>
 
 
@@ -44,8 +44,10 @@ const LoadingScreen = ({navigation}: {navigation:any}) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 50,
-    marginLeft: 50,
+    margin: 50,
+  },
+  buttonContainer:{
+  alignItems: 'center',
   },
   bigBlue: {
     color: 'blue',
@@ -56,14 +58,22 @@ const styles = StyleSheet.create({
     color: 'red',
   },
    button: {
-      marginBottom: 30,
-      width: 260,
+      marginTop: 30,
+      align: 'right',
+      width: 150,
       alignItems: 'center',
-      backgroundColor: 'purple',
+      justifyContent: 'center',
+      paddingVertical: 12,
+      paddingHorizontal: 2,
+      borderRadius: 9,
+      elevation: 3,
+      backgroundColor: 'black',
     },
     buttonText: {
-      textAlign: 'center',
-      padding: 20,
+      fontSize: 16,
+      lineHeight: 21,
+      fontWeight: 'bold',
+      letterSpacing: 0.25,
       color: 'white',
     },
 
