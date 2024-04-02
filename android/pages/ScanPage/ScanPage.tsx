@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {StyleSheet, Text, View, Pressable, Image, TextInput} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Image, TextInput, ToastAndroid} from 'react-native';
 import {Camera, useCameraDevice, useCodeScanner} from 'react-native-vision-camera';
 import firestore  from '@react-native-firebase/firestore';
 import { useCartContext, CartProvider } from "../../context/context";
@@ -11,6 +11,9 @@ const ScanPage = ({navigation}: {navigation:any}) => {
       const [scannedProduct, setScannedProduct] = useState('')
       const [products, setProducts] = useState([])
       const {cartItems, setCartItems} = useCartContext();
+      const showToast = () => {
+          ToastAndroid.show('Added Successfully!!!', ToastAndroid.LONG);
+        };
 
       console.log(cartItems)
 
@@ -63,7 +66,7 @@ const codeScanner = useCodeScanner({
               <Text style={styles.bigBlue}>{scannedProduct.name || 'Not found!'}</Text>
               <Text style={styles.black}>Ksh: {scannedProduct.price || 'Not found!'}</Text>
 
-              <Text>Quantity:</Text>
+              <Text style={styles.black}>Quantity:</Text>
 
               <View style={styles.fixToText}>
                   <Pressable style={styles.button}
@@ -80,25 +83,25 @@ const codeScanner = useCodeScanner({
                   </Pressable>
               </View>
 
-              <Text>Total: {scannedProduct.price * quantity}</Text>
+              <Text style={styles.black}>Total: {scannedProduct.price * quantity}</Text>
 
               {scannedProduct &&
               <View style={styles.fixToText}>
-                  <Pressable style={styles.button}
+                  <Pressable style={styles.addButton}
                     onPress={() => setScannedProduct({})}>
-                    <Text style={styles.buttonText}>Cancel</Text>
+                    <Text style={styles.buttonText}>X</Text>
                   </Pressable>
 
-                  <Pressable style={styles.button}
-                    onPress={() => setCartItems(cartItems => [...cartItems, {...scannedProduct, quantity: quantity}])}>
-                    <Text style={styles.buttonText}>Add To Cart</Text>
+                  <Pressable style={styles.addButton}
+                    onPress={() => {showToast(); setCartItems(cartItems => [...cartItems, {...scannedProduct, quantity: quantity}]); }}>
+                    <Text style={styles.buttonText}>✔</Text>
                   </Pressable>
               </View>
               }
 
-             <Pressable style={styles.button}
+             <Pressable style={styles.cartButton}
                onPress={() => navigation.navigate('cart_page')}>
-               <Text style={styles.buttonText}>Go To Cart</Text>
+               <Text style={styles.buttonText}>View Cart</Text>
              </Pressable>
 
             </View>
@@ -134,6 +137,23 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 0.25,
     color: 'white',
+  },
+  addButton: {
+    width: 69,
+    height: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9,
+    backgroundColor: 'black',
+    },
+  cartButton: {
+    width: 140,
+    height: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 9,
+    backgroundColor: 'black',
+    bottom: 0,
   },
   camera: {
     height: '40%',

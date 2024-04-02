@@ -6,6 +6,8 @@ import HomePage from "./android/pages/HomePage/HomePage";
 import CameraPage from "./android/pages/CameraPage/CameraPage";
 import ScanPage from "./android/pages/ScanPage/ScanPage";
 import CartPage from "./android/pages/CartPage/CartPage";
+import SignUp from "./android/pages/Authentication/SignUp";
+import LogIn from "./android/pages/Authentication/LogIn";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { CartProvider } from "./android/context/context";
 
@@ -21,6 +23,8 @@ export default function App() {
                     <Stack.Screen name="camera_page" component={CameraPage} />
                     <Stack.Screen name="scan_page" component={ScanPage} />
                     <Stack.Screen name="cart_page" component={CartPage} />
+                    <Stack.Screen name="signup_page" component={SignUp} />
+                    <Stack.Screen name="login_page" component={LogIn} />
                 </Stack.Navigator>
             </NavigationContainer>
         </CartProvider>
