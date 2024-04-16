@@ -1,32 +1,18 @@
 import React from 'react';
 import { useCartContext} from "../../context/context";
-import CartItem from "../../components/CartItem";
 import {StyleSheet, Text, View, Pressable, Alert, ScrollView, ToastAndroid, SafeAreaView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import ProductList from "../../components/ProductList";
 
 export default function CartPage(){
     const {cartItems} = useCartContext();
     const navigation = useNavigation();
 
+
+
     return (
         <View style={styles.container}>
-            <SafeAreaView  style={styles.items}>
-                <ScrollView>
-                    {cartItems.map(cartItem => (
-                       <View key={cartItem.code}>
-                           <CartItem
-                                img={cartItem.imgUrl}
-                                name={cartItem.name}
-                                price={cartItem.price}
-                                qty={cartItem.quantity}
-                            />
-                           <Pressable style={styles.removeButton}>
-                               <Text style={styles.removeButtonText}>X</Text>
-                           </Pressable>
-                       </View>
-                    ))}
-                </ScrollView>
-            </SafeAreaView>
+           <ProductList items={cartItems}  />
 
             <View style={styles.total}>
                 <Text style={styles.text}>{cartItems.length} Goods</Text>
@@ -35,12 +21,12 @@ export default function CartPage(){
 
             <View style={styles.btnContainer}>
                 <Pressable style={styles.button}
-                  onPress={() => navigation.navigate('scan_page')}>
+                  onPress={() => navigation.goBack()}>
                   <Text style={styles.buttonText}>Back To Scan</Text>
                 </Pressable>
 
                 <Pressable style={styles.button}
-                  onPress={() => Alert.alert('Thank you for using CheckOut App')}>
+                  onPress={() => navigation.navigate('checkout_page')}>
                   <Text style={styles.buttonText}>Check Out</Text>
                 </Pressable>
             </View>
@@ -62,6 +48,9 @@ const styles = StyleSheet.create({
       top: 10,
       right: 0,
       left: 20,
+    },
+    item: {
+      marginBottom: 10,
     },
     text: {
       color: 'black',
@@ -102,19 +91,5 @@ const styles = StyleSheet.create({
       borderRadius: 9,
       backgroundColor: 'black',
     },
-    removeButton: {
-        backgroundColor: 'red',
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-        width: 28,
-        position: 'absolute',
-        right: 5,
-        top: 5,
-    },
-    removeButtonText: {
-        color: 'white',
-        fontWeight: 'bold',
-    },
+
 })

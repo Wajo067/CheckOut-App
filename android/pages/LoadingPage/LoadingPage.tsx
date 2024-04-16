@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Button, Image, Pressable} from 'react-native';
+import auth from '@react-native-firebase/auth';
 
 const LoadingScreen = ({navigation}: {navigation:any}) => {
   return (
@@ -36,6 +37,15 @@ const LoadingScreen = ({navigation}: {navigation:any}) => {
           <Text style={styles.buttonText}>Scan</Text>
         </Pressable>
       </View>
+
+      <View style={styles.buttonContainer}>
+          <Pressable style={styles.button}
+            onPress={() => auth()
+                             .signOut()
+                             .then(() => console.log('User signed out!'))}>
+            <Text style={styles.buttonText}>Sign Out</Text>
+          </Pressable>
+        </View>
     </View>
 
 

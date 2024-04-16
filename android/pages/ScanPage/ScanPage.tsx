@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {StyleSheet, Text, View, Pressable, Image, TextInput, ToastAndroid} from 'react-native';
+import {StyleSheet, Text, View, Pressable, Image, TextInput, ToastAndroid, Alert} from 'react-native';
 import {Camera, useCameraDevice, useCodeScanner} from 'react-native-vision-camera';
 import firestore  from '@react-native-firebase/firestore';
 import { useCartContext, CartProvider } from "../../context/context";
@@ -21,20 +21,20 @@ const ScanPage = ({navigation}: {navigation:any}) => {
 
 
       useEffect(() => {
-        async function fetchData() {
-          try {
-            const snapshot = await firestore().collection("Products").get();
-            const productList = snapshot.docs.map((doc) => doc.data());
-            setProducts(productList)
-            return productList;
-          } catch (error) {
-            console.error("Error fetching data:", error);
-            return null;
-          }
-        }
+                     async function fetchData() {
+                       try {
+                         const snapshot = await firestore().collection("Products").get();
+                         const productList = snapshot.docs.map((doc) => doc.data());
+                         setProducts(productList)
+                         return productList;
+                       } catch (error) {
+                         console.error("Error fetching data:", error);
+                         return null;
+                       }
+                     }
 
-        fetchData();
-      }, []);
+                     fetchData();
+                   }, []);
 
 
 const codeScanner = useCodeScanner({
@@ -51,6 +51,39 @@ const codeScanner = useCodeScanner({
     setBarCode(codes[0].value)
   }
 })
+
+const addQuantity = () => {
+    const item = {...cartItems.find((item) => item.code === scannedProduct.code)};
+    const newItem = {...item, quantity: item.quantity + quantity};
+    const index = cartItems.findIndex((item) => item.code === scannedProduct.code);
+
+    cartItems[index] = newItem;
+
+    setCartItems(cartItems);
+}
+
+function addToCart(){
+    setScannedProduct({});
+    setQuantity(1);
+    if(cartItems.find((item) => item.code === scannedProduct.code)){
+        Alert.alert(
+               //This is title
+              "Product in Cart",
+                //This is body text
+              "Add quantity?",
+              [
+                {text: 'No', onPress: () => {setScannedProduct({});setQuantity(1);}},
+                {text: 'Yes', onPress: () => addQuantity()},
+              ],
+              //on clicking out side, Alert will not dismiss
+            );
+    }else{
+        setCartItems(cartItems => [...cartItems, {...scannedProduct, quantity: quantity}]);
+        showToast();
+
+    }
+}
+
       return (
         <View style={styles.cameraContainer}>
             <Camera
@@ -88,12 +121,12 @@ const codeScanner = useCodeScanner({
               {scannedProduct &&
               <View style={styles.fixToText}>
                   <Pressable style={styles.addButton}
-                    onPress={() => setScannedProduct({})}>
+                    onPress={() => {setScannedProduct({}); setQuantity(1);}}>
                     <Text style={styles.buttonText}>X</Text>
                   </Pressable>
 
                   <Pressable style={styles.addButton}
-                    onPress={() => {showToast(); setCartItems(cartItems => [...cartItems, {...scannedProduct, quantity: quantity}]); }}>
+                    onPress={addToCart}>
                     <Text style={styles.buttonText}>✔</Text>
                   </Pressable>
               </View>
@@ -156,7 +189,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   camera: {
-    height: '40%',
+    height: '45%',
     marginTop: 20,
     marginRight: 20,
     marginLeft: 20,

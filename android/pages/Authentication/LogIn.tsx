@@ -10,7 +10,8 @@ const LogIn = ({navigation}: {navigation:any}) => {
     function signIn(){
       auth().signInWithEmailAndPassword(user.email , user.password)
       .then(()=> {
-          console.log("User account logged in..")
+          console.log("User account logged in..");
+          setLoading(false);
           navigation.navigate('loading_page')
       })
       .catch(error => {
